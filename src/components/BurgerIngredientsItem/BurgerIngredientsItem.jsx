@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { INGREDIENT_TYPE } from "../../utils/constatns";
 
 const BurgerIngredientsItem = ({ ingredient, updateConstructorIngredients }) => {
 	const [count, setCount] = useState(0);
@@ -13,7 +14,10 @@ const BurgerIngredientsItem = ({ ingredient, updateConstructorIngredients }) => 
 	}
 	
 	return (
-		<li className={styles.root} onClick={onClick}>
+		<li
+			className={styles.root}
+			onClick={onClick}
+		>
 			<div className={styles.top}>
 				{count > 0 && (
 					<Counter count={count}/>
@@ -37,7 +41,7 @@ const BurgerIngredientsItem = ({ ingredient, updateConstructorIngredients }) => 
 };
 
 BurgerIngredientsItem.propTypes = {
-	ingredient: PropTypes.object.isRequired,
+	ingredient: PropTypes.shape(INGREDIENT_TYPE).isRequired,
 	updateConstructorIngredients: PropTypes.func.isRequired,
 }
 

@@ -2,38 +2,45 @@ import styles from './BurgerConstructor.module.css';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { useMemo } from "react";
+import { INGREDIENT_TYPE, TYPE_BUN } from "../../utils/constatns";
 
 const BurgerConstructor = ({ constructorIngredients }) => {
-	
-	const calcSumPrice = () => {
+	const price = useMemo(() => {
 		return constructorIngredients.reduce((p, c) => {
-			return p += (c.type === 'bun' ? 2 : 1) * c.price
+			return p += (c.type === TYPE_BUN ? 2 : 1) * c.price
 		}, 0);
-	}
+	}, [constructorIngredients])
+	
+	const constructorBun = useMemo(() => {
+		return constructorIngredients.find(item => item.type === TYPE_BUN)
+	}, [constructorIngredients])
+	
+	const constructorIngredientsList = useMemo(() => {
+		return constructorIngredients.map(ingredient => ingredient.type !== TYPE_BUN)
+	}, [constructorIngredients])
 	
 	return (
 		<div className={styles.root}>
-			{constructorIngredients.length > 0 && (
+			{constructorIngredientsList.length > 0 && (
 				<>
 					<div className={classNames(styles.wrapper, "pt-15")}>
-						{constructorIngredients
-							.map(ingredient => {
-								return ingredient.type === 'bun' && (
-									<div className={styles.listItem}>
-										<ConstructorElement
-											type="top"
-											isLocked={true}
-											text={ingredient.name}
-											thumbnail={ingredient.image}
-											price={ingredient.price}
-										/>
-									</div>
-								)
-							})
-						}
+						<div className={styles.listItem}>
+							{constructorBun && (
+								<ConstructorElement
+									type="top"
+									isLocked
+									text={constructorBun.name}
+									thumbnail={constructorBun.image}
+									price={constructorBun.price}
+								/>
+							)}
+						</div>
 						<ul className={classNames(styles.list, "custom-scroll")}>
-							{constructorIngredients.map(ingredient => {
-								return ingredient.type !== 'bun' && (
+							{
+								constructorIngredientsList &&
+								constructorIngredientsList.length &&
+								constructorIngredientsList.map(ingredient => (
 									<li
 										key={ingredient._id}
 										className={styles.listItem}
@@ -45,28 +52,24 @@ const BurgerConstructor = ({ constructorIngredients }) => {
 											price={ingredient.price}
 										/>
 									</li>
-								)
-							})}
+								))
+							}
 						</ul>
-						{constructorIngredients
-							.map(ingredient => {
-								return ingredient.type === 'bun' && (
-									<div className={styles.listItem}>
-										<ConstructorElement
-											type="bottom"
-											isLocked={true}
-											text={ingredient.name}
-											thumbnail={ingredient.image}
-											price={ingredient.price}
-										/>
-									</div>
-								)
-							})
-						}
+						<div className={styles.listItem}>
+							{constructorBun && (
+								<ConstructorElement
+									type="bottom"
+									isLocked
+									text={constructorBun.name}
+									thumbnail={constructorBun.image}
+									price={constructorBun.price}
+								/>
+							)}
+						</div>
 					</div>
 					<div className={classNames(styles.footer, "mt-10")}>
 						<div className={classNames(styles.price, "mr-10")}>
-							<span className="text text_type_digits-medium">{calcSumPrice()}</span>
+							<span className="text text_type_digits-medium">{price}</span>
 							<CurrencyIcon type="primary"/>
 						</div>
 						<Button
@@ -84,7 +87,7 @@ const BurgerConstructor = ({ constructorIngredients }) => {
 };
 
 BurgerConstructor.propTypes = {
-	constructorIngredients: PropTypes.arrayOf(PropTypes.object).isRequired,
+	constructorIngredients: PropTypes.arrayOf(PropTypes.shape(INGREDIENT_TYPE).isRequired).isRequired,
 }
 
 export default BurgerConstructor;

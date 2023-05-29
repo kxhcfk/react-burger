@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
-import { burgerTypes } from "../../utils/constatns";
+import { burgerTypes, INGREDIENT_TYPE } from "../../utils/constatns";
 import BurgerIngredientsSection from "../BurgerIngredientsSection/BurgerIngredientsSection";
 
 const BurgerIngredients = ({ ingredients, updateConstructorIngredients }) => {
@@ -48,7 +48,7 @@ const BurgerIngredients = ({ ingredients, updateConstructorIngredients }) => {
 };
 
 BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(PropTypes.object).isRequired,
+	ingredients: PropTypes.arrayOf(PropTypes.shape(INGREDIENT_TYPE).isRequired).isRequired,
 	updateConstructorIngredients: PropTypes.func.isRequired,
 }
 

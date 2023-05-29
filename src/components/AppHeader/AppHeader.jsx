@@ -9,23 +9,39 @@ const AppHeader = () => {
 				<div className={styles.wrapper}>
 					<nav>
 						<ul className={styles.nav}>
-							<li className={`${styles.item} pt-4 pb-4 pr-5 pl-5`}>
-								<BurgerIcon type="primary"/>
-								<span className="text text_type_main-default ml-2">Конструктор</span>
+							<li className="pt-4 pb-4 pr-5 pl-5">
+								<a
+									href="/"
+									className={styles.item}
+								>
+									<BurgerIcon type="primary"/>
+									<span className="text text_type_main-default ml-2">Конструктор</span>
+								</a>
 							</li>
-							<li className={`${styles.item} pt-4 pb-4 pr-5 pl-5`}>
-								<ListIcon type="secondary"/>
-								<span className="text text_type_main-default color_secondary ml-2">Лента заказов</span>
+							<li className="pt-4 pb-4 pr-5 pl-5">
+								<a
+									href="/"
+									className={styles.item}
+								>
+									<ListIcon type="secondary"/>
+									<span className="text text_type_main-default color_secondary ml-2">Лента заказов</span>
+								</a>
 							</li>
 						</ul>
 					</nav>
-					<div className={styles.logo}>
+					<a
+						href="/"
+						className={styles.logo}
+					>
 						<Logo/>
-					</div>
-					<div className={classNames(styles.item, styles.profile)}>
+					</a>
+					<a
+						href="/"
+						className={classNames(styles.item, styles.profile)}
+					>
 						<ProfileIcon type="secondary"/>
 						<span className="text text_type_main-default color_secondary ml-2">Личный кабинет</span>
-					</div>
+					</a>
 				</div>
 			</div>
 		</header>

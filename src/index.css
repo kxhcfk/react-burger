@@ -4,6 +4,14 @@
     margin: 0 auto;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
 .color_secondary {
     color: #8585AD;
 }
