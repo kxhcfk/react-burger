@@ -1,0 +1,38 @@
+.root {
+
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.list {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    overflow: auto;
+    max-height: calc(100vh - 524px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer {
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
