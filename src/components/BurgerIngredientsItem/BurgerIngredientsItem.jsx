@@ -1,17 +1,20 @@
-import styles from './BurgerIngredientsItem.module.css';
-import classNames from "classnames";
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { INGREDIENT_TYPE } from "../../utils/constatns";
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-const BurgerIngredientsItem = ({ ingredient, updateConstructorIngredients }) => {
+import { memo, useCallback, useState } from 'react';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { INGREDIENT_TYPE } from '../../utils/constatns';
+
+import styles from './BurgerIngredientsItem.module.css';
+
+const BurgerIngredientsItem = memo(({ ingredient, updateConstructorIngredients }) => {
 	const [count, setCount] = useState(0);
 	
-	const onClick = () => {
+	const onClick = useCallback(() => {
 		setCount(count + 1);
 		updateConstructorIngredients(ingredient);
-	}
+	}, [count, ingredient, updateConstructorIngredients]);
 	
 	return (
 		<li
@@ -28,7 +31,7 @@ const BurgerIngredientsItem = ({ ingredient, updateConstructorIngredients }) => 
 						alt={ingredient.name}
 					/>
 				</div>
-				<span className={classNames(styles.price, "pt-1 pb-1")}>
+				<span className={classNames(styles.price, 'pt-1 pb-1')}>
 					<span className="text text_type_digits-default mr-2">{ingredient.price}</span>
 					<CurrencyIcon type="primary"/>
 				</span>
@@ -38,11 +41,11 @@ const BurgerIngredientsItem = ({ ingredient, updateConstructorIngredients }) => 
 			</div>
 		</li>
 	);
-};
+});
 
 BurgerIngredientsItem.propTypes = {
 	ingredient: PropTypes.shape(INGREDIENT_TYPE).isRequired,
 	updateConstructorIngredients: PropTypes.func.isRequired,
-}
+};
 
 export default BurgerIngredientsItem;
