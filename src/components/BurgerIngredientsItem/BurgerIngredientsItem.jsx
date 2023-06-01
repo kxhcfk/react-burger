@@ -1,20 +1,21 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { INGREDIENT_TYPE } from '../../utils/constatns';
 
 import styles from './BurgerIngredientsItem.module.css';
 
-const BurgerIngredientsItem = memo(({ ingredient, updateConstructorIngredients }) => {
+const BurgerIngredientsItem = memo(({ ingredient, updateConstructorIngredients, handleOpenIngredientDetail }) => {
 	const [count, setCount] = useState(0);
 	
-	const onClick = useCallback(() => {
+	const onClick = () => {
 		setCount(count + 1);
 		updateConstructorIngredients(ingredient);
-	}, [count, ingredient, updateConstructorIngredients]);
+		handleOpenIngredientDetail(ingredient);
+	};
 	
 	return (
 		<li
@@ -46,6 +47,7 @@ const BurgerIngredientsItem = memo(({ ingredient, updateConstructorIngredients }
 BurgerIngredientsItem.propTypes = {
 	ingredient: PropTypes.shape(INGREDIENT_TYPE).isRequired,
 	updateConstructorIngredients: PropTypes.func.isRequired,
+	handleOpenIngredientDetail: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredientsItem;

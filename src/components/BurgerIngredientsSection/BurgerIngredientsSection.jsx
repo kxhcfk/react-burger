@@ -7,7 +7,7 @@ import { INGREDIENT_TYPE } from '../../utils/constatns';
 
 import styles from './BurgerIngredientsSection.module.css';
 
-const BurgerIngredientsSection = memo(({ ingredients, title, type, updateConstructorIngredients }) => {
+const BurgerIngredientsSection = memo(({ ingredients, title, type, updateConstructorIngredients, handleOpenIngredientDetail }) => {
 	const ingredientsList = useMemo(() => {
 		return ingredients.filter(ingredient => ingredient.type === type);
 	}, [ingredients, type]);
@@ -25,6 +25,7 @@ const BurgerIngredientsSection = memo(({ ingredients, title, type, updateConstru
 							key={ingredient._id}
 							ingredient={ingredient}
 							updateConstructorIngredients={updateConstructorIngredients}
+							handleOpenIngredientDetail={handleOpenIngredientDetail}
 						/>
 					))
 				}
@@ -38,6 +39,7 @@ BurgerIngredientsSection.propTypes = {
 	title: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	updateConstructorIngredients: PropTypes.func.isRequired,
+	handleOpenIngredientDetail: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredientsSection;
