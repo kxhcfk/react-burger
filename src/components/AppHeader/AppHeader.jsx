@@ -1,10 +1,13 @@
-import styles from './AppHeader.module.css';
-import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import classNames from "classnames";
+import classNames from 'classnames';
 
-const AppHeader = () => {
+import { memo } from 'react';
+import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import styles from './AppHeader.module.css';
+
+const AppHeader = memo(() => {
 	return (
-		<header className={classNames(styles.root, "pt-4 pb-4")}>
+		<header className={classNames(styles.root, 'pt-4 pb-4')}>
 			<div className="container">
 				<div className={styles.wrapper}>
 					<nav>
@@ -46,6 +49,6 @@ const AppHeader = () => {
 			</div>
 		</header>
 	);
-};
+});
 
 export default AppHeader;
