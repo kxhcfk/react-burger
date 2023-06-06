@@ -1,19 +1,32 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { memo, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { INGREDIENT_TYPE } from '../../utils/constatns';
+import { INGREDIENT_TYPE } from '../../utils/types';
 
 import styles from './BurgerIngredientsItem.module.css';
+import { OrderContext } from '../../services/context/order';
+import { TYPE_BUN } from '../../utils/constatns';
 
-const BurgerIngredientsItem = memo(({ ingredient, updateConstructorIngredients, handleOpenIngredientDetail }) => {
+const BurgerIngredientsItem = memo(({ ingredient, handleOpenIngredientDetail }) => {
+	const { constructorIngredients, setConstructorIngredients } = useContext(OrderContext);
 	const [count, setCount] = useState(0);
+	const isBun = ingredient.type === TYPE_BUN;
 	
 	const onClick = () => {
-		setCount(count + 1);
-		updateConstructorIngredients(ingredient);
+		setCount(isBun ? 1 : count + 1);
+		
+		const oldConstructorIngredients = isBun ?
+			constructorIngredients.filter(i => i.type !== TYPE_BUN) :
+			constructorIngredients
+		
+		setConstructorIngredients([
+			...oldConstructorIngredients,
+			ingredient,
+		]);
+		
 		handleOpenIngredientDetail(ingredient);
 	};
 	
@@ -46,7 +59,6 @@ const BurgerIngredientsItem = memo(({ ingredient, updateConstructorIngredients, 
 
 BurgerIngredientsItem.propTypes = {
 	ingredient: PropTypes.shape(INGREDIENT_TYPE).isRequired,
-	updateConstructorIngredients: PropTypes.func.isRequired,
 	handleOpenIngredientDetail: PropTypes.func.isRequired,
 };
 

@@ -8,11 +8,12 @@ import BurgerIngredientsSection from '../BurgerIngredientsSection/BurgerIngredie
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
-import { burgerTypes, INGREDIENT_TYPE } from '../../utils/constatns';
+import { INGREDIENT_TYPE } from '../../utils/types';
+import { burgerTypes } from '../../utils/constatns';
 
 import styles from './BurgerIngredients.module.css';
 
-const BurgerIngredients = memo(({ ingredients, updateConstructorIngredients }) => {
+const BurgerIngredients = memo(({ ingredients }) => {
 	const [activeTab, setActiveTab] = useState(burgerTypes[0].type);
 	const [ingredientDetail, setIngredientDetail] = useState(null);
 	
@@ -59,7 +60,6 @@ const BurgerIngredients = memo(({ ingredients, updateConstructorIngredients }) =
 									type={tab.type}
 									title={tab.title}
 									ingredients={ingredients}
-									updateConstructorIngredients={updateConstructorIngredients}
 									handleOpenIngredientDetail={handleOpenIngredientDetail}
 								/>
 							))
@@ -82,7 +82,6 @@ const BurgerIngredients = memo(({ ingredients, updateConstructorIngredients }) =
 
 BurgerIngredients.propTypes = {
 	ingredients: PropTypes.arrayOf(PropTypes.shape(INGREDIENT_TYPE).isRequired).isRequired,
-	updateConstructorIngredients: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

@@ -1,39 +1,47 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useContext, useMemo, useState } from 'react';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { INGREDIENT_TYPE, TYPE_BUN } from '../../utils/constatns';
+import { OrderContext } from '../../services/context/order';
+
+import { TYPE_BUN } from '../../utils/constatns';
 
 import styles from './BurgerConstructor.module.css';
+import { getOrder } from '../../utils/api';
 
-const BurgerConstructor = memo(({ constructorIngredients }) => {
+const BurgerConstructor = memo(() => {
+	const { constructorIngredients } = useContext(OrderContext);
 	const [orderNumber, setOrderNumber] = useState(null);
 	
+	const constructorBun = useMemo(() => (
+		constructorIngredients.find(ingredient => ingredient.type === TYPE_BUN)
+	), [constructorIngredients]);
+	
+	const constructorIngredientsList = useMemo(() => (
+		constructorIngredients.filter(ingredient => ingredient.type !== TYPE_BUN)
+	), [constructorIngredients]);
+	
 	const price = useMemo(() => {
-		return constructorIngredients.reduce((p, c) => {
-			return p += (c.type === TYPE_BUN ? 2 : 1) * c.price;
-		}, 0);
-	}, [constructorIngredients]);
-	
-	const constructorBun = useMemo(() => {
-		return constructorIngredients.find(item => item.type === TYPE_BUN);
-	}, [constructorIngredients]);
-	
-	const constructorIngredientsList = useMemo(() => {
-		return constructorIngredients.filter(ingredient => ingredient.type !== TYPE_BUN);
-	}, [constructorIngredients]);
+		const sumList = constructorIngredientsList.reduce((acc, curr) => acc + curr.price, 0);
+		const sumBun = (constructorBun?.price || 0) * 2;
+		
+		return sumList + sumBun;
+	}, [constructorIngredientsList, constructorBun]);
 	
 	const handleCloseOrderDetails = () => {
 		setOrderNumber(null);
 	};
 	
 	const handleOrderClick = () => {
-		setOrderNumber(1034536);
+		getOrder([
+			constructorBun._id,
+			...constructorIngredientsList.map(ingredient => ingredient._id)
+		])
+			.then(res => setOrderNumber(res.order.number))
 	};
 	
 	return (
@@ -114,9 +122,5 @@ const BurgerConstructor = memo(({ constructorIngredients }) => {
 		</>
 	);
 });
-
-BurgerConstructor.propTypes = {
-	constructorIngredients: PropTypes.arrayOf(PropTypes.shape(INGREDIENT_TYPE).isRequired).isRequired,
-};
 
 export default BurgerConstructor;
