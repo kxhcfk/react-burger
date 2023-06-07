@@ -15,7 +15,8 @@ const App = () => {
 	
 	useEffect(() => {
 		getIngredients()
-			.then(res => setIngredients(res.data));
+			.then(res => setIngredients(res.data))
+			.catch(status => console.log(status));
 	}, []);
 	
 	return (

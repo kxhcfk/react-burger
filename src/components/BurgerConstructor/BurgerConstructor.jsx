@@ -12,10 +12,25 @@ import { TYPE_BUN } from '../../utils/constatns';
 
 import styles from './BurgerConstructor.module.css';
 import { getOrder } from '../../utils/api';
+import { useModal } from '../../hooks/useModal';
+import { useFetch } from '../../hooks/useFetch';
+import Loader from '../Loader/Loader';
 
 const BurgerConstructor = memo(() => {
-	const { constructorIngredients } = useContext(OrderContext);
+	const { constructorIngredients, setConstructorIngredients } = useContext(OrderContext);
+	const { isModalOpen, openModal, closeModal } = useModal();
 	const [orderNumber, setOrderNumber] = useState(null);
+	const [fetchOrder, isOrderLoading, errorOrder] = useFetch(async () => {
+		openModal();
+		
+		const data = await getOrder([
+			constructorBun._id,
+			...constructorIngredientsList.map(ingredient => ingredient._id),
+		]);
+		
+		setOrderNumber(data.order.number);
+		setConstructorIngredients([]);
+	});
 	
 	const constructorBun = useMemo(() => (
 		constructorIngredients.find(ingredient => ingredient.type === TYPE_BUN)
@@ -32,16 +47,8 @@ const BurgerConstructor = memo(() => {
 		return sumList + sumBun;
 	}, [constructorIngredientsList, constructorBun]);
 	
-	const handleCloseOrderDetails = () => {
-		setOrderNumber(null);
-	};
-	
 	const handleOrderClick = () => {
-		getOrder([
-			constructorBun._id,
-			...constructorIngredientsList.map(ingredient => ingredient._id)
-		])
-			.then(res => setOrderNumber(res.order.number))
+		fetchOrder();
 	};
 	
 	return (
@@ -57,7 +64,7 @@ const BurgerConstructor = memo(() => {
 										<ConstructorElement
 											type="top"
 											isLocked
-											text={constructorBun.name}
+											text={`${constructorBun.name} (верх)`}
 											thumbnail={constructorBun.image}
 											price={constructorBun.price}
 										/>
@@ -87,7 +94,7 @@ const BurgerConstructor = memo(() => {
 										<ConstructorElement
 											type="bottom"
 											isLocked
-											text={constructorBun.name}
+											text={`${constructorBun.name} (низ)`}
 											thumbnail={constructorBun.image}
 											price={constructorBun.price}
 										/>
@@ -112,11 +119,14 @@ const BurgerConstructor = memo(() => {
 					)}
 			</div>
 			
-			{orderNumber && (
+			{isModalOpen && (
 				<Modal
-					onClose={handleCloseOrderDetails}
+					onClose={closeModal}
 				>
-					<OrderDetails number={orderNumber}/>
+					{isOrderLoading
+						? <Loader/>
+						: <OrderDetails number={orderNumber}/>
+					}
 				</Modal>
 			)}
 		</>

@@ -1,23 +1,21 @@
-import { URL_INGREDIENTS, URL_ORDERS } from './constatns';
+import { BASE_URL } from './constatns';
 
 const checkResponse = response => response.ok ? response.json() : Promise.reject(response.status);
 
+const request = (url, options) => fetch(`${BASE_URL}${url}`, options).then(checkResponse)
+
 export const getIngredients = async () => {
-	const res = await fetch(URL_INGREDIENTS);
-	
-	return checkResponse(res);
+	return request(`/ingredients`);
 };
 
 export const getOrder = async (ingredients) => {
-	const res = await fetch(URL_ORDERS, {
-		method: "POST",
+	return request(`/orders`, {
+		method: 'POST',
 		headers: {
-			"Content-type": "application/json",
+			'Content-type': 'application/json',
 		},
 		body: JSON.stringify({
-			ingredients: ingredients
+			ingredients: ingredients,
 		}),
 	});
-	
-	return checkResponse(res);
-}
+};
