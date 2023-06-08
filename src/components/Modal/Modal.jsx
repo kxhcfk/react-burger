@@ -17,7 +17,7 @@ const Modal = memo(({ children, title, onClose }) => {
 	
 	const handleModalClick = (e) => {
 		e.stopPropagation();
-	}
+	};
 	
 	useEffect(() => {
 		document.addEventListener('keydown', handleEsc);

@@ -7,21 +7,16 @@ import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import { getIngredients } from '../../utils/api';
 
 import styles from './App.module.css';
+import { OrderContext } from '../../services/context/order';
 
 const App = () => {
 	const [ingredients, setIngredients] = useState([]);
 	const [constructorIngredients, setConstructorIngredients] = useState([]);
 	
-	const updateConstructorIngredients = (ingredient) => {
-		setConstructorIngredients([
-			...constructorIngredients,
-			ingredient,
-		]);
-	};
-	
 	useEffect(() => {
 		getIngredients()
-			.then(res => setIngredients(res.data));
+			.then(res => setIngredients(res.data))
+			.catch(status => console.log(status));
 	}, []);
 	
 	return (
@@ -31,13 +26,17 @@ const App = () => {
 			<main className="pt-10 pb-10">
 				<div className="container">
 					<div className={styles.wrapper}>
-						<BurgerIngredient
-							ingredients={ingredients}
-							updateConstructorIngredients={updateConstructorIngredients}
-						/>
-						<BurgerConstructor
-							constructorIngredients={constructorIngredients}
-						/>
+						<OrderContext.Provider
+							value={{
+								constructorIngredients,
+								setConstructorIngredients,
+							}}
+						>
+							<BurgerIngredient
+								ingredients={ingredients}
+							/>
+							<BurgerConstructor/>
+						</OrderContext.Provider>
 					</div>
 				</div>
 			</main>

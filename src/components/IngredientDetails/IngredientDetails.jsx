@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { memo } from 'react';
 
-import { INGREDIENT_TYPE } from '../../utils/constatns';
+import { INGREDIENT_TYPE } from '../../utils/types';
 
 import styles from './IngredientDetails.module.css';
 import classNames from 'classnames';

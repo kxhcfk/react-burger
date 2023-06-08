@@ -1,39 +1,54 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useContext, useMemo, useState } from 'react';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { INGREDIENT_TYPE, TYPE_BUN } from '../../utils/constatns';
+import { OrderContext } from '../../services/context/order';
+
+import { TYPE_BUN } from '../../utils/constatns';
 
 import styles from './BurgerConstructor.module.css';
+import { getOrder } from '../../utils/api';
+import { useModal } from '../../hooks/useModal';
+import { useFetch } from '../../hooks/useFetch';
+import Loader from '../Loader/Loader';
 
-const BurgerConstructor = memo(({ constructorIngredients }) => {
+const BurgerConstructor = memo(() => {
+	const { constructorIngredients, setConstructorIngredients } = useContext(OrderContext);
+	const { isModalOpen, openModal, closeModal } = useModal();
 	const [orderNumber, setOrderNumber] = useState(null);
+	const [fetchOrder, isOrderLoading, errorOrder] = useFetch(async () => {
+		openModal();
+		
+		const data = await getOrder([
+			constructorBun._id,
+			...constructorIngredientsList.map(ingredient => ingredient._id),
+		]);
+		
+		setOrderNumber(data.order.number);
+		setConstructorIngredients([]);
+	});
+	
+	const constructorBun = useMemo(() => (
+		constructorIngredients.find(ingredient => ingredient.type === TYPE_BUN)
+	), [constructorIngredients]);
+	
+	const constructorIngredientsList = useMemo(() => (
+		constructorIngredients.filter(ingredient => ingredient.type !== TYPE_BUN)
+	), [constructorIngredients]);
 	
 	const price = useMemo(() => {
-		return constructorIngredients.reduce((p, c) => {
-			return p += (c.type === TYPE_BUN ? 2 : 1) * c.price;
-		}, 0);
-	}, [constructorIngredients]);
-	
-	const constructorBun = useMemo(() => {
-		return constructorIngredients.find(item => item.type === TYPE_BUN);
-	}, [constructorIngredients]);
-	
-	const constructorIngredientsList = useMemo(() => {
-		return constructorIngredients.filter(ingredient => ingredient.type !== TYPE_BUN);
-	}, [constructorIngredients]);
-	
-	const handleCloseOrderDetails = () => {
-		setOrderNumber(null);
-	};
+		const sumList = constructorIngredientsList.reduce((acc, curr) => acc + curr.price, 0);
+		const sumBun = (constructorBun?.price || 0) * 2;
+		
+		return sumList + sumBun;
+	}, [constructorIngredientsList, constructorBun]);
 	
 	const handleOrderClick = () => {
-		setOrderNumber(1034536);
+		fetchOrder();
 	};
 	
 	return (
@@ -49,7 +64,7 @@ const BurgerConstructor = memo(({ constructorIngredients }) => {
 										<ConstructorElement
 											type="top"
 											isLocked
-											text={constructorBun.name}
+											text={`${constructorBun.name} (верх)`}
 											thumbnail={constructorBun.image}
 											price={constructorBun.price}
 										/>
@@ -79,7 +94,7 @@ const BurgerConstructor = memo(({ constructorIngredients }) => {
 										<ConstructorElement
 											type="bottom"
 											isLocked
-											text={constructorBun.name}
+											text={`${constructorBun.name} (низ)`}
 											thumbnail={constructorBun.image}
 											price={constructorBun.price}
 										/>
@@ -104,19 +119,18 @@ const BurgerConstructor = memo(({ constructorIngredients }) => {
 					)}
 			</div>
 			
-			{orderNumber && (
+			{isModalOpen && (
 				<Modal
-					onClose={handleCloseOrderDetails}
+					onClose={closeModal}
 				>
-					<OrderDetails number={orderNumber}/>
+					{isOrderLoading
+						? <Loader/>
+						: <OrderDetails number={orderNumber}/>
+					}
 				</Modal>
 			)}
 		</>
 	);
 });
-
-BurgerConstructor.propTypes = {
-	constructorIngredients: PropTypes.arrayOf(PropTypes.shape(INGREDIENT_TYPE).isRequired).isRequired,
-};
 
 export default BurgerConstructor;
