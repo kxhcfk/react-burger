@@ -1,24 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredient from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-import { getIngredients } from '../../utils/api';
-
 import styles from './App.module.css';
-import { OrderContext } from '../../services/context/order';
 
 const App = () => {
-	const [ingredients, setIngredients] = useState([]);
-	const [constructorIngredients, setConstructorIngredients] = useState([]);
-	
-	useEffect(() => {
-		getIngredients()
-			.then(res => setIngredients(res.data))
-			.catch(status => console.log(status));
-	}, []);
-	
 	return (
 		<div className={styles.app}>
 			<AppHeader/>
@@ -26,17 +17,10 @@ const App = () => {
 			<main className="pt-10 pb-10">
 				<div className="container">
 					<div className={styles.wrapper}>
-						<OrderContext.Provider
-							value={{
-								constructorIngredients,
-								setConstructorIngredients,
-							}}
-						>
-							<BurgerIngredient
-								ingredients={ingredients}
-							/>
+						<DndProvider backend={HTML5Backend}>
+							<BurgerIngredient/>
 							<BurgerConstructor/>
-						</OrderContext.Provider>
+						</DndProvider>
 					</div>
 				</div>
 			</main>
