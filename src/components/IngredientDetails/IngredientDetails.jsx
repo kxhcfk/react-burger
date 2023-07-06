@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-
-import { memo } from 'react';
-
-import { INGREDIENT_TYPE } from '../../utils/types';
-
-import styles from './IngredientDetails.module.css';
 import classNames from 'classnames';
 
-const IngredientDetails = memo(({ ingredient }) => {
+import { memo } from 'react';
+import { useSelector } from 'react-redux';
+
+import styles from './IngredientDetails.module.css';
+
+const IngredientDetails = memo(() => {
+	const { currentIngredient: ingredient } = useSelector(store => store.currentIngredient);
+	
 	return (
 		<div className={styles.root}>
 			<img
@@ -39,9 +39,5 @@ const IngredientDetails = memo(({ ingredient }) => {
 		</div>
 	);
 });
-
-IngredientDetails.propTypes = {
-	ingredient: PropTypes.shape(INGREDIENT_TYPE).isRequired,
-};
 
 export default IngredientDetails;
