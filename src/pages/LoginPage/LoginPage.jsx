@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './LoginPage.module.css';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../utils/constatns';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../services/actions/auth';
@@ -9,6 +9,7 @@ import { useForm } from '../../hooks/useForm';
 
 const LoginPage = () => {
 	const dispatch = useDispatch();
+	const location = useLocation();
 	
 	const { loginRequest, user } = useSelector(store => store.auth);
 	
@@ -27,7 +28,7 @@ const LoginPage = () => {
 		<>
 			{user ? (
 				<Navigate
-					to={ROUTES.main}
+					to={location.state?.from || ROUTES.main}
 					replace={true}
 				/>
 			) : (

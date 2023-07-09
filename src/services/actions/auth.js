@@ -8,10 +8,6 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
-export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
-export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
-export const REFRESH_TOKEN_FAILED = 'REFRESH_TOKEN_FAILED';
-
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
@@ -96,24 +92,6 @@ export const logout = () => async (dispatch) => {
 		}
 	} catch (e) {
 		dispatch({ type: LOGOUT_FAILED });
-	}
-};
-
-export const refreshToken = () => async (dispatch) => {
-	dispatch({ type: REFRESH_TOKEN_REQUEST });
-	
-	try {
-		const res = await AuthService.token();
-		
-		if (res && res.success) {
-			localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
-			
-			dispatch({ type: REFRESH_TOKEN_SUCCESS });
-		} else {
-			dispatch({ type: REFRESH_TOKEN_FAILED });
-		}
-	} catch (e) {
-		dispatch({ type: REFRESH_TOKEN_FAILED });
 	}
 };
 

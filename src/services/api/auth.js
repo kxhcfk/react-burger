@@ -33,34 +33,6 @@ class AuthService extends API {
 		});
 	}
 	
-	async token() {
-		return this.request('/auth/token', {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json',
-			},
-			body: JSON.stringify({
-				token: localStorage.getItem('refreshToken'),
-			}),
-		});
-	}
-	
-	async getAccessToken() {
-		let token = localStorage.getItem('accessToken');
-		
-		if (!token) {
-			const res = await this.token();
-			
-			if (res && res.success) {
-				token = res.accessToken.split('Bearer ')[1];
-				
-				localStorage.setItem('accessToken', token);
-			}
-		}
-		
-		return token;
-	}
-	
 	async restorePassword(data) {
 		return this.request('/password-reset', {
 			method: 'POST',
@@ -82,9 +54,9 @@ class AuthService extends API {
 	}
 	
 	async getUser() {
-		const token = await this.getAccessToken();
+		const token = localStorage.getItem('accessToken');
 		
-		return this.request('/auth/user', {
+		return this.fetchWithRefresh('/auth/user', {
 			method: 'GET',
 			headers: {
 				'Authorization': `Bearer ${token}`,
@@ -93,9 +65,9 @@ class AuthService extends API {
 	}
 	
 	async updateUser(data) {
-		const token = await this.getAccessToken();
+		const token = localStorage.getItem('accessToken');
 		
-		return this.request('/auth/user', {
+		return this.fetchWithRefresh('/auth/user', {
 			method: 'PATCH',
 			headers: {
 				'Content-type': 'application/json',

@@ -8,9 +8,6 @@ import {
 	LOGOUT_FAILED,
 	LOGOUT_REQUEST,
 	LOGOUT_SUCCESS,
-	REFRESH_TOKEN_FAILED,
-	REFRESH_TOKEN_REQUEST,
-	REFRESH_TOKEN_SUCCESS,
 	REGISTER_FAILED,
 	REGISTER_REQUEST,
 	REGISTER_SUCCESS,
@@ -49,9 +46,6 @@ const initialState = {
 	
 	logoutRequest: false,
 	logoutFailed: false,
-	
-	refreshTokenRequest: false,
-	refreshTokenFailed: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -165,26 +159,6 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				logoutRequest: false,
 				logoutFailed: true,
-			};
-		}
-		case REFRESH_TOKEN_REQUEST: {
-			return {
-				...state,
-				refreshTokenRequest: true,
-				refreshTokenFailed: false,
-			};
-		}
-		case REFRESH_TOKEN_SUCCESS: {
-			return {
-				...state,
-				refreshTokenRequest: false,
-			};
-		}
-		case REFRESH_TOKEN_FAILED: {
-			return {
-				...state,
-				refreshTokenFailed: true,
-				refreshTokenRequest: false,
 			};
 		}
 		case GET_USER_REQUEST: {
