@@ -8,6 +8,7 @@ import {
 	ADD_CONSTRUCTOR_BUN,
 	ADD_CONSTRUCTOR_INGREDIENT,
 	CALC_TOTAL_PRICE,
+	CLEAR_CONSTRUCTOR,
 } from '../../services/actions/burgerConstructor';
 
 import { getOrder } from '../../services/actions/order';
@@ -39,7 +40,10 @@ const BurgerConstructor = memo(() => {
 		dispatch(getOrder([
 			bun._id,
 			...constructorIngredients.map(ingredient => ingredient._id),
-		]));
+		]))
+			.then(_ => {
+				dispatch({ type: CLEAR_CONSTRUCTOR });
+			});
 	}, [bun, constructorIngredients]);
 	
 	const [, dropTarget] = useDrop({

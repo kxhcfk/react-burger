@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
 	ADD_CONSTRUCTOR_BUN,
 	ADD_CONSTRUCTOR_INGREDIENT,
-	CALC_TOTAL_PRICE,
+	CALC_TOTAL_PRICE, CLEAR_CONSTRUCTOR,
 	DELETE_CONSTRUCTOR_INGREDIENT,
 	SORT_CONSTRUCTOR_INGREDIENT,
 } from '../actions/burgerConstructor';
@@ -56,6 +56,9 @@ const burgerConstructorReducer = (state = initialState, action) => {
 				...state,
 				constructorIngredients: currentIngredients,
 			};
+		}
+		case CLEAR_CONSTRUCTOR: {
+			return initialState
 		}
 		case CALC_TOTAL_PRICE: {
 			const priceList = state.constructorIngredients.reduce((acc, curr) => acc + curr.price, 0);

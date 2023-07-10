@@ -16,6 +16,6 @@ export const getOrder = (ingredients) => async (dispatch) => {
 			dispatch({ type: GET_ORDER_FAILED });
 		}
 	} catch (e) {
-		dispatch({ type: GET_ORDER_SUCCESS });
+		dispatch({ type: GET_ORDER_FAILED });
 	}
 };
