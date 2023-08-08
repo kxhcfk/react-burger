@@ -25,7 +25,9 @@ const FeedDetailsPage: FC = () => {
     }, []);
     
     useEffect(() => {
-        dispatch(getCurrentOrder(id));
+        if (id) {
+            dispatch(getCurrentOrder(id));
+        }
     }, [id]);
     
     if (!currentOrder) {

@@ -189,7 +189,7 @@ export const updateUserSuccessAction = (user: TUser): IUpdateUserSuccessAction =
 export const updateUserFailedAction = (): IUpdateUserFailedAction => ({ type: UPDATE_USER_FAILED });
 
 
-export const register: AppThunk = (data: TUserWithPassword) => async (dispatch: AppDispatch) => {
+export const register = (data: TUserWithPassword) => async (dispatch: AppDispatch) => {
     dispatch(registerRequestAction());
     
     try {
@@ -209,7 +209,7 @@ export const register: AppThunk = (data: TUserWithPassword) => async (dispatch: 
 };
 
 
-export const login: AppThunk = (data: TUserPasswordAndEmail) => async (dispatch: AppDispatch) => {
+export const login = (data: TUserPasswordAndEmail) => async (dispatch: AppDispatch) => {
     dispatch(loginRequestAction());
     
     try {
@@ -229,7 +229,7 @@ export const login: AppThunk = (data: TUserPasswordAndEmail) => async (dispatch:
 };
 
 
-export const logout: AppThunk = () => async (dispatch: AppDispatch) => {
+export const logout = () => async (dispatch: AppDispatch) => {
     dispatch(logoutRequestAction());
     
     try {
@@ -249,7 +249,7 @@ export const logout: AppThunk = () => async (dispatch: AppDispatch) => {
 };
 
 
-export const restorePassword: AppThunk = (data: Omit<TUser, 'name'>) => async (dispatch: AppDispatch) => {
+export const restorePassword = (data: Omit<TUser, 'name'>) => async (dispatch: AppDispatch) => {
     dispatch(restorePasswordRequestAction());
     
     try {
@@ -266,7 +266,7 @@ export const restorePassword: AppThunk = (data: Omit<TUser, 'name'>) => async (d
 };
 
 
-export const resetPassword: AppThunk = (data: {password: string, token: string}) => async (dispatch: AppDispatch) => {
+export const resetPassword = (data: {password: string, token: string}) => async (dispatch: AppDispatch) => {
     dispatch(resetPasswordRequestAction());
     
     try {
@@ -283,7 +283,7 @@ export const resetPassword: AppThunk = (data: {password: string, token: string})
 };
 
 
-export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
+export const getUser = () => async (dispatch: AppDispatch) => {
     dispatch(getUserRequestAction());
     
     try {
@@ -300,7 +300,7 @@ export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
 };
 
 
-export const updateUser: AppThunk = (data: {email?: string, password?: string, name?: string}) => async (dispatch: AppDispatch) => {
+export const updateUser = (data: {email?: string, password?: string, name?: string}) => async (dispatch: AppDispatch) => {
     dispatch(updateUserRequestAction());
     
     try {

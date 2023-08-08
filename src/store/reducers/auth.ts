@@ -29,6 +29,7 @@ type TAuthState = {
     
     getUserRequest: boolean,
     getUserFailed: boolean,
+    getUserLoaded: boolean,
     
     updateUserRequest: boolean,
     updateUserFailed: boolean,
@@ -56,6 +57,7 @@ const initialState: TAuthState = {
     
     getUserRequest: false,
     getUserFailed: false,
+    getUserLoaded: false,
     
     updateUserRequest: false,
     updateUserFailed: false,
@@ -129,6 +131,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 registerFailed: false,
                 registerRequest: true,
+                getUserLoaded: false,
             };
         }
         case REGISTER_SUCCESS: {
@@ -136,6 +139,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 registerRequest: false,
                 user: action.user,
+                getUserLoaded: true,
             };
         }
         case REGISTER_FAILED: {
@@ -143,6 +147,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 registerFailed: true,
                 registerRequest: false,
+                getUserLoaded: true,
             };
         }
         case LOGIN_REQUEST: {
@@ -150,6 +155,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 loginFailed: false,
                 loginRequest: true,
+                getUserLoaded: false,
             };
         }
         case LOGIN_SUCCESS: {
@@ -157,6 +163,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 loginRequest: false,
                 user: action.user,
+                getUserLoaded: true,
             };
         }
         case LOGIN_FAILED: {
@@ -164,6 +171,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 loginFailed: true,
                 loginRequest: false,
+                getUserLoaded: true,
             };
         }
         case LOGOUT_REQUEST: {
@@ -171,6 +179,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 logoutRequest: true,
                 logoutFailed: false,
+                getUserLoaded: false,
             };
         }
         case LOGOUT_SUCCESS: {
@@ -178,6 +187,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 logoutRequest: false,
                 user: null,
+                getUserLoaded: true,
             };
         }
         case LOGOUT_FAILED: {
@@ -185,6 +195,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 logoutRequest: false,
                 logoutFailed: true,
+                getUserLoaded: true,
             };
         }
         case GET_USER_REQUEST: {
@@ -192,12 +203,14 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 getUserRequest: true,
                 getUserFailed: false,
+                getUserLoaded: false,
             };
         }
         case GET_USER_SUCCESS: {
             return {
                 ...state,
                 getUserRequest: false,
+                getUserLoaded: true,
                 user: action.user,
             };
         }
@@ -205,6 +218,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
             return {
                 ...state,
                 getUserRequest: false,
+                getUserLoaded: true,
                 getUserFailed: true,
             };
         }
@@ -213,6 +227,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 updateUserRequest: true,
                 updateUserFailed: false,
+                getUserLoaded: false,
             };
         }
         case UPDATE_USER_SUCCESS: {
@@ -220,6 +235,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 updateUserRequest: false,
                 user: action.user,
+                getUserLoaded: true,
             };
         }
         case UPDATE_USER_FAILED: {
@@ -227,6 +243,7 @@ const authReducer = (state = initialState, action: TAuthActions): TAuthState => 
                 ...state,
                 updateUserRequest: false,
                 updateUserFailed: true,
+                getUserLoaded: true,
             };
         }
         default: {

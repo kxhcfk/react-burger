@@ -40,7 +40,7 @@ export const getCurrentOrderSuccessAction = (
 });
 export const getCurrentOrderFailedAction = (): IGetCurrentOrderFailedAction => ({ type: GET_CURRENT_ORDER_FAILED });
 
-export const getCurrentOrder: AppThunk = (number: number | string) => async (dispatch: AppDispatch) => {
+export const getCurrentOrder = (number: number | string) => async (dispatch: AppDispatch) => {
     dispatch(getCurrentOrderRequestAction());
     
     try {

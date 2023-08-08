@@ -25,7 +25,6 @@ export const wsMiddleware = (WSActions: IWSActions): Middleware => {
                 wsUrl = (action as { payload: string }).payload;
                 
                 socket = new WebSocket(wsUrl);
-                console.log("сокет старт");
             }
             
             if (socket) {
@@ -42,8 +41,6 @@ export const wsMiddleware = (WSActions: IWSActions): Middleware => {
                     const parsedData = JSON.parse(data);
                     
                     if (parsedData.message === "Invalid or missing token") {
-                        console.log(parsedData.message);
-                        
                         socket?.close();
                         
                         new API().refreshToken()

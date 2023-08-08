@@ -39,7 +39,7 @@ export type TIngredientsActions =
     | IGetIngredientsFailedAction;
 
 
-export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
+export const getIngredients = () => async (dispatch: AppDispatch) => {
     dispatch(getIngredientsRequestAction());
     
     try {

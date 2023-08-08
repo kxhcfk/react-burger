@@ -1,13 +1,15 @@
-import { TIngredient } from "../../types/TIngredient";
 import { TWsOrder } from "../../types/TOrder";
 import { API } from './index';
 
 class OrderService extends API {
-	async create(ingredients: TIngredient[]): Promise<{success: boolean, order: {number: number}}> {
-		return this.request('/orders', {
+	async create(ingredients: string[]): Promise<{success: boolean, order: {number: number}}> {
+		const token = localStorage.getItem('accessToken');
+		
+		return this.fetchWithRefresh('/orders', {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json',
+				'Authorization': `Bearer ${token}`,
 			},
 			body: JSON.stringify({
 				ingredients: ingredients,

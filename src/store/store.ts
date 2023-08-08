@@ -25,8 +25,6 @@ const store = createStore(
 );
 
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-
-// @ts-ignore
-export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
+export const useDispatch: () => AppDispatch = dispatchHook;
 
 export { store };

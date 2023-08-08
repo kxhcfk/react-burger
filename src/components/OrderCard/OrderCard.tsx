@@ -3,15 +3,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import {
-    FC,
     memo,
-    MemoExoticComponent,
     NamedExoticComponent,
-    useEffect,
     useMemo,
 } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { getIngredients } from "../../store/actions/ingredients";
 import { useDispatch, useSelector } from "../../store/store";
 import { TIngredient } from "../../types/TIngredient";
 import { TWsOrder } from "../../types/TOrder";
@@ -25,6 +21,10 @@ type OrderCardProps = {
     order: TWsOrder;
 }
 
+type TOrderIngredient = TIngredient & {
+    count: number;
+}
+
 const OrderCard: NamedExoticComponent<OrderCardProps> = memo(({
     details = false,
     order,
@@ -35,21 +35,18 @@ const OrderCard: NamedExoticComponent<OrderCardProps> = memo(({
     
     const { ingredients } = useSelector(state => state.ingredients);
     
-    
-    const orderIngredients = useMemo<Array<TIngredient & {count: number}>>(() => (
+    const orderIngredients = useMemo(() => (
         Object.values(
             ingredients
                 .filter(ingredient => order.ingredients.includes(ingredient._id))
-                .reduce((acc, curr) => {
-                    // @ts-ignore
+                .reduce<Record<string, TOrderIngredient>>((acc, curr) => {
                     if (acc[curr._id]) {
-                        // @ts-ignore
                         acc[curr._id].count = acc[curr._id].count + 1;
                     } else {
-                        // @ts-ignore
-                        acc[curr._id] = curr;
-                        // @ts-ignore
-                        acc[curr._id].count = 1;
+                        acc[curr._id] = {
+                            ...curr,
+                            count: 1
+                        };
                     }
                     
                     return acc;
@@ -75,7 +72,7 @@ const OrderCard: NamedExoticComponent<OrderCardProps> = memo(({
                             <h3 className={classNames(styles.ingredientListTitle, "text text_type_main-medium mb-6")}>Состав:</h3>
                             <ul className={classNames(styles.ingredientList, 'custom-scroll')}>
                                 {orderIngredients.map((ingredient, i) => (
-                                    <li key={i} className={styles.ingredient}>
+                                    <li key={ingredient._id} className={styles.ingredient}>
                                         <div className={styles.ingredientImage}>
                                             <img
                                                 src={ingredient.image_mobile}

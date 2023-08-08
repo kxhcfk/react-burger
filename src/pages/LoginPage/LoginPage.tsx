@@ -29,7 +29,7 @@ const LoginPage = () => {
 			{user ? (
 				<Navigate
 					to={location.state?.from || ROUTES.main}
-					replace={true}
+					replace
 				/>
 			) : (
 				<main>

@@ -42,9 +42,7 @@ const IngredientDetailsPage = () => {
 	}, []);
 	
 	useEffect(() => {
-		if (!ingredients.length) {
-			dispatch(getIngredients());
-		} else {
+		if (ingredients.length) {
 			dispatch(setIngredientAction(ingredient));
 		}
 	}, [ingredients]);

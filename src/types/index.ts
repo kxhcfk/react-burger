@@ -1,5 +1,8 @@
+import { TypedUseSelectorHook } from "react-redux";
+import { useDispatch as dispatchHook } from "react-redux/es/hooks/useDispatch";
+import { useSelector as selectorHook } from "react-redux/es/hooks/useSelector";
 import { Action, ActionCreator } from "redux";
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { TAuthActions } from "../store/actions/auth";
 import {
     TBurgerConstructorActions,
@@ -11,21 +14,21 @@ import { TOrderActions } from "../store/actions/order";
 import { TGetAllOrdersActions } from "../store/actions/wsAllOrders";
 import { TGetUserOrdersActions } from "../store/actions/wsUserOrders";
 import { store } from "../store/store";
+import type {} from 'redux-thunk/extend-redux'
 
 export type TApplicationActions =
     | TIngredientsActions
-    | TAuthActions
     | TIngredientActions
+    | TBurgerConstructorActions
     | TOrderActions
-    | TGetAllOrdersActions
+    | TAuthActions
     | TCurrentOrderActions
-    | TGetUserOrdersActions
-    | TBurgerConstructorActions;
+    | TGetAllOrdersActions
+    | TGetUserOrdersActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export type AppThunk<TReturn = void> = ActionCreator<
-    ThunkAction<TReturn, Action, RootState, TApplicationActions>
->;
+export type AppThunk<TReturn = void> = ThunkAction<TReturn, RootState, unknown, TApplicationActions>;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch<ReturnType = void> = (action: TApplicationActions | AppThunk<ReturnType>) => ReturnType;
+

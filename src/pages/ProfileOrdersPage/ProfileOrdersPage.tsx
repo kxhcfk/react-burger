@@ -40,6 +40,7 @@ const ProfileOrdersPage = () => {
                     <div className={classNames(styles.wrapper, "custom-scroll")}>
                         {orders.map(order => (
                             <OrderCard
+                                key={order.number}
                                 order={order}
                                 baseUrlLink={ROUTES.profileOrders}
                             />

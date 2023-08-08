@@ -1,4 +1,3 @@
-// @ts-ignore
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientWithUuid } from "../../types/TIngredient";
 import { TBurgerConstructorActions } from "../actions/burgerConstructor";

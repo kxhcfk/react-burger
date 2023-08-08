@@ -1,9 +1,10 @@
 import classNames from 'classnames';
 
-import { FC, memo } from "react";
+import { FC, memo, useMemo } from "react";
 import { useDrag } from 'react-dnd';
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from "../../store/store";
 import { TIngredient } from "../../types/TIngredient";
 
 import styles from './BurgerIngredientsItem.module.css';
@@ -16,6 +17,14 @@ type TBurgerIngredientsItemProps = {
 
 const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = memo(({ ingredient }) => {
 	const location = useLocation();
+	
+	const {bun, constructorIngredients} = useSelector(state => state.burgerConstructor);
+	
+	const count = useMemo(() => (
+		ingredient.type === 'bun'
+			? bun?._id === ingredient._id ? 2 : 0
+			: constructorIngredients.filter(item => item._id === ingredient._id).length
+	), [ingredient, bun, constructorIngredients]);
 	
 	const [, dragRef] = useDrag({
 		type: 'ingredient',
@@ -37,7 +46,9 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = memo(({ ingredien
 				state={{ background: location }}
 			>
 				<div className={styles.top}>
-					<Counter count={0}/>
+					{!!count && (
+						<Counter count={count}/>
+					)}
 					<div
 						className={styles.image}
 					>

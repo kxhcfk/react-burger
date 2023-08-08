@@ -41,7 +41,7 @@ export type TOrderActions =
     | IGetOrderFailedAction;
 
 
-export const getOrder: AppThunk = (ingredients: TIngredient[]) => async (dispatch: AppDispatch) => {
+export const getOrder = (ingredients: string[]) => async (dispatch: AppDispatch) => {
     dispatch(getOrderRequestAction());
     
     try {
