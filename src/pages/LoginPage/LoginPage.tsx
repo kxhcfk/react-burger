@@ -1,17 +1,16 @@
 import React from 'react';
+import { useDispatch, useSelector } from "../../store/store";
 import styles from './LoginPage.module.css';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../utils/constatns';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../services/actions/auth';
+import { login } from '../../store/actions/auth';
 import { useForm } from '../../hooks/useForm';
 
 const LoginPage = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	
-	// @ts-ignore
 	const { loginRequest, user } = useSelector(store => store.auth);
 	
 	const { data, handleData } = useForm({
@@ -22,7 +21,6 @@ const LoginPage = () => {
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		
-		// @ts-ignore
 		dispatch(login(data));
 	};
 	

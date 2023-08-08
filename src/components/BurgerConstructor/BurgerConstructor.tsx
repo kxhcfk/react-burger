@@ -1,20 +1,18 @@
 import classNames from 'classnames';
 
 import React, { FC, memo, useCallback } from "react";
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-
 import {
-	ADD_CONSTRUCTOR_BUN,
-	ADD_CONSTRUCTOR_INGREDIENT,
-	CALC_TOTAL_PRICE,
-	CLEAR_CONSTRUCTOR,
-} from '../../services/actions/burgerConstructor';
+	addConstructorBunAction,
+	addConstructorIngredientAction,
+	calcTotalPriceAction,
+} from "../../store/actions/burgerConstructor";
 
-import { getOrder } from '../../services/actions/order';
+import { getOrder } from '../../store/actions/order';
 
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredient, TIngredientWithUuid } from "../../types/TIngredient";
+import { useDispatch, useSelector } from "../../store/store";
+import { TIngredientWithUuid } from "../../types/TIngredient";
 
 import BurgerConstructorList from '../BurgerConstructorList/BurgerConstructorList';
 import Modal from '../Modal/Modal';
@@ -30,9 +28,7 @@ import styles from './BurgerConstructor.module.css';
 const BurgerConstructor: FC = memo(() => {
 	const dispatch = useDispatch();
 	
-	// @ts-ignore
 	const { bun, constructorIngredients, totalPrice } = useSelector(store => store.burgerConstructor);
-	// @ts-ignore
 	const { order, orderRequest, orderFailed } = useSelector(store => store.order);
 	
 	const { isModalOpen, openModal, closeModal } = useModal();
@@ -40,14 +36,10 @@ const BurgerConstructor: FC = memo(() => {
 	const handleOrderClick = useCallback(() => {
 		openModal();
 		
-		// @ts-ignore
 		dispatch(getOrder([
-			bun._id,
+			bun?._id,
 			...constructorIngredients.map((ingredient: TIngredientWithUuid) => ingredient._id),
 		]))
-			.then(() => {
-				dispatch({ type: CLEAR_CONSTRUCTOR });
-			});
 	}, [bun, constructorIngredients]);
 	
 	const [, dropTarget] = useDrop({
@@ -55,12 +47,12 @@ const BurgerConstructor: FC = memo(() => {
 		drop({ ingredient }: {ingredient: TIngredientWithUuid}) {
 			
 			if (ingredient.type === TYPE_BUN) {
-				dispatch({ type: ADD_CONSTRUCTOR_BUN, payload: ingredient });
+				dispatch(addConstructorBunAction(ingredient));
 			} else {
-				dispatch({ type: ADD_CONSTRUCTOR_INGREDIENT, payload: ingredient });
+				dispatch(addConstructorIngredientAction(ingredient));
 			}
 			
-			dispatch({ type: CALC_TOTAL_PRICE });
+			dispatch(calcTotalPriceAction());
 		},
 	});
 	
@@ -123,7 +115,9 @@ const BurgerConstructor: FC = memo(() => {
 						? <Loader/>
 						: orderFailed
 							? <h2>Произошла ошибка</h2>
-							: <OrderDetails number={order.number}/>
+							: order
+								? <OrderDetails number={order.number}/>
+								: <h2>Произошла ошибка</h2>
 					}
 				</Modal>
 			)}

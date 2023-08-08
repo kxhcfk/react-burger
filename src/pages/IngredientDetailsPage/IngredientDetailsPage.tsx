@@ -1,12 +1,15 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
 import { useCallback, useEffect, useMemo } from 'react';
 import Loader from '../../components/Loader/Loader';
-import { DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
-import { getIngredients } from '../../services/actions/ingredients';
+import {
+	deleteIngredientAction,
+	setIngredientAction,
+} from "../../store/actions/ingredient";
+import { getIngredients } from '../../store/actions/ingredients';
 import Modal from '../../components/Modal/Modal';
 import { useModal } from '../../hooks/useModal';
+import { useDispatch, useSelector } from "../../store/store";
 import { ROUTES } from '../../utils/constatns';
 import styles from './IngredientDetailsPage.module.css';
 import classNames from 'classnames';
@@ -18,15 +21,13 @@ const IngredientDetailsPage = () => {
 	const { id } = useParams();
 	const location = useLocation();
 	
-	const isModal = !!location.state?.isModal;
+	const isModal = !!location.state?.background;
 	
 	const { closeModal } = useModal();
 	
-	// @ts-ignore
 	const { ingredients, ingredientsRequest } = useSelector(store => store.ingredients);
 	
 	const ingredient = useMemo(() => (
-		// @ts-ignore
 		ingredients.find(ingredient => ingredient._id === id)
 	), [id, ingredients]);
 	
@@ -35,17 +36,16 @@ const IngredientDetailsPage = () => {
 			closeModal();
 		}
 		
-		dispatch({ type: DELETE_CURRENT_INGREDIENT });
+		dispatch(deleteIngredientAction());
 		
 		navigate(ROUTES.main);
 	}, []);
 	
 	useEffect(() => {
 		if (!ingredients.length) {
-			// @ts-ignore
 			dispatch(getIngredients());
 		} else {
-			dispatch({ type: SET_CURRENT_INGREDIENT, payload: ingredient });
+			dispatch(setIngredientAction(ingredient));
 		}
 	}, [ingredients]);
 	

@@ -1,3 +1,8 @@
+import {
+	TUser,
+	TUserPasswordAndEmail,
+	TUserWithPassword,
+} from "../../types/TUser";
 import { API } from './index';
 
 type TLoginProps = {
@@ -18,17 +23,13 @@ type TAuthReturnWithTokens = TAuthReturn & {
 	refreshToken: string,
 }
 
-type TRegisterProps = TLoginProps & {
-	email: string
-}
-
 type TReturn = {
 	success: boolean,
 	message: string,
 }
 
 class AuthService extends API {
-	async login(data: TLoginProps): Promise<TAuthReturnWithTokens> {
+	async login(data: TUserPasswordAndEmail): Promise<TAuthReturnWithTokens> {
 		return this.request('/auth/login', {
 			method: 'POST',
 			headers: {
@@ -38,7 +39,7 @@ class AuthService extends API {
 		});
 	}
 	
-	async register(data: TRegisterProps): Promise<TAuthReturnWithTokens> {
+	async register(data: TUserWithPassword): Promise<TAuthReturnWithTokens> {
 		return this.request('/auth/register', {
 			method: 'POST',
 			headers: {
@@ -60,7 +61,7 @@ class AuthService extends API {
 		});
 	}
 	
-	async restorePassword(data: {email: string}): Promise<TReturn> {
+	async restorePassword(data: Omit<TUser, 'name'>): Promise<TReturn> {
 		return this.request('/password-reset', {
 			method: 'POST',
 			headers: {

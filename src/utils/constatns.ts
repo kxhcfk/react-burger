@@ -10,6 +10,8 @@ export const ROUTES = {
 	profileOrders: '/profile/orders',
 	profileOrderDetails: '/profile/orders/:id',
 	ingredientDetails: '/ingredients/:id',
+	feed: '/feed',
+	feedDetails: '/feed/:id',
 	notFound: '/*',
 }
 
@@ -31,3 +33,6 @@ export const burgerTypes = [
 		title: 'Начинки',
 	},
 ];
+
+export const WS_ALL_ORDERS_URL = 'wss://norma.nomoreparties.space/orders/all';
+export const WS_USER_ORDERS_URL = 'wss://norma.nomoreparties.space/orders';

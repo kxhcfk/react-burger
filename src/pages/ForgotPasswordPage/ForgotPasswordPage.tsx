@@ -5,7 +5,7 @@ import { Link, Navigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../utils/constatns';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
-import { restorePassword } from '../../services/actions/auth';
+import { restorePassword } from '../../store/actions/auth';
 
 const ForgotPasswordPage: FC = () => {
 	const dispatch = useDispatch();

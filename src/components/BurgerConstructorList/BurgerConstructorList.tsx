@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 
 import React, { FC, useCallback } from "react";
-import { useDispatch } from 'react-redux';
-
-import { CALC_TOTAL_PRICE, DELETE_CONSTRUCTOR_INGREDIENT } from '../../services/actions/burgerConstructor';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	calcTotalPriceAction,
+	deleteConstructorIngredientAction,
+} from "../../store/actions/burgerConstructor";
+import { useDispatch } from "../../store/store";
 import { TIngredientWithUuid } from "../../types/TIngredient";
 
 import BurgerConstructorItem from '../BurgerConstructorItem/BurgerConstructorItem';
@@ -20,8 +22,8 @@ const BurgerConstructorList: FC<TBurgerConstructorListProps> = ({ ingredients })
 	const dispatch = useDispatch();
 	
 	const handleRemove = useCallback((id: string) => {
-		dispatch({ type: DELETE_CONSTRUCTOR_INGREDIENT, payload: id });
-		dispatch({ type: CALC_TOTAL_PRICE });
+		dispatch(deleteConstructorIngredientAction(id));
+		dispatch(calcTotalPriceAction());
 	}, []);
 	
 	return (

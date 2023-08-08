@@ -1,25 +1,31 @@
+// @ts-ignore
 import { v4 as uuidv4 } from 'uuid';
-
+import { TIngredient, TIngredientWithUuid } from "../../types/TIngredient";
+import { TBurgerConstructorActions } from "../actions/burgerConstructor";
 import {
 	ADD_CONSTRUCTOR_BUN,
-	ADD_CONSTRUCTOR_INGREDIENT,
-	CALC_TOTAL_PRICE, CLEAR_CONSTRUCTOR,
-	DELETE_CONSTRUCTOR_INGREDIENT,
-	SORT_CONSTRUCTOR_INGREDIENT,
-} from '../actions/burgerConstructor';
+	ADD_CONSTRUCTOR_INGREDIENT, CALC_TOTAL_PRICE, CLEAR_CONSTRUCTOR,
+	DELETE_CONSTRUCTOR_INGREDIENT, SORT_CONSTRUCTOR_INGREDIENT,
+} from "../constants/burgerConstructor";
 
-const initialState = {
+type TBurgerConstructorState = {
+	bun: TIngredient | null;
+	constructorIngredients: TIngredientWithUuid[];
+	totalPrice: number;
+}
+
+const initialState: TBurgerConstructorState = {
 	bun: null,
 	constructorIngredients: [],
 	totalPrice: 0,
 };
 
-const burgerConstructorReducer = (state = initialState, action) => {
+const burgerConstructorReducer = (state: TBurgerConstructorState = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
 	switch (action.type) {
 		case ADD_CONSTRUCTOR_BUN: {
 			return {
 				...state,
-				bun: action.payload,
+				bun: action.bun,
 			};
 		}
 		case ADD_CONSTRUCTOR_INGREDIENT: {
@@ -28,14 +34,14 @@ const burgerConstructorReducer = (state = initialState, action) => {
 				constructorIngredients: [
 					...state.constructorIngredients,
 					{
-						...action.payload,
+						...action.ingredient,
 						uuid: uuidv4(),
 					},
 				],
 			};
 		}
 		case DELETE_CONSTRUCTOR_INGREDIENT: {
-			const constructorIngredients = state.constructorIngredients.filter(ingredient => ingredient.uuid !== action.payload);
+			const constructorIngredients = state.constructorIngredients.filter(ingredient => ingredient.uuid !== action.uuid);
 			
 			return {
 				...state,
@@ -43,7 +49,7 @@ const burgerConstructorReducer = (state = initialState, action) => {
 			};
 		}
 		case SORT_CONSTRUCTOR_INGREDIENT: {
-			const { dragIndex, hoverIndex } = action.payload;
+			const { dragIndex, hoverIndex } = action;
 			
 			const currentIngredients = state.constructorIngredients.slice(0);
 			

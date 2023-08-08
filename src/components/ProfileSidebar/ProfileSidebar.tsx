@@ -1,10 +1,10 @@
 import { FC } from "react";
+import { useDispatch } from "../../store/store";
 import styles from './ProfileSidebar.module.css';
 import { ROUTES } from '../../utils/constatns';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../services/actions/auth';
+import { logout } from '../../store/actions/auth';
 
 const links = [
 	{
@@ -25,7 +25,6 @@ const ProfileSidebar: FC = () => {
 	);
 	
 	const handleLogoutClick = () => {
-		// @ts-ignore
 		dispatch(logout());
 	};
 	

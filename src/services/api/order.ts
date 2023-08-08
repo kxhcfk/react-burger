@@ -1,4 +1,5 @@
 import { TIngredient } from "../../types/TIngredient";
+import { TWsOrder } from "../../types/TOrder";
 import { API } from './index';
 
 class OrderService extends API {
@@ -13,6 +14,14 @@ class OrderService extends API {
 			}),
 		});
 	};
+	
+	async get(number: number): Promise<{success: boolean, orders: TWsOrder[]}> {
+		return this.request(`/orders/${number}`, {
+			headers: {
+				'Content-type': 'application/json',
+			},
+		});
+	}
 }
 
 const service = new OrderService();

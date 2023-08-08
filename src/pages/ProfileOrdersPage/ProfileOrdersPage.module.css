@@ -1,0 +1,15 @@
+.root {
+    flex-grow: 1;
+    margin-top: -80px;
+    margin-bottom: -120px;
+    overflow: hidden;
+}
+
+.wrapper {
+    max-height: calc(100vh - 148px - 64px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-right: 8px;
+    overflow: auto;
+}

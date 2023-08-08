@@ -7,7 +7,7 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { TIngredient } from "../../types/TIngredient";
 
 import styles from './BurgerIngredientsItem.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from '../../utils/constatns';
 
 type TBurgerIngredientsItemProps = {
@@ -15,6 +15,8 @@ type TBurgerIngredientsItemProps = {
 }
 
 const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = memo(({ ingredient }) => {
+	const location = useLocation();
+	
 	const [, dragRef] = useDrag({
 		type: 'ingredient',
 		item: {
@@ -32,7 +34,7 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = memo(({ ingredien
 			<Link
 				className={styles.root}
 				to={ROUTES.ingredientDetails.replace(':id', ingredient._id)}
-				state={{ isModal: true }}
+				state={{ background: location }}
 			>
 				<div className={styles.top}>
 					<Counter count={0}/>
