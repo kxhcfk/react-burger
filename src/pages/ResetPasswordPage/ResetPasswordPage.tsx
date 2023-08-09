@@ -1,17 +1,16 @@
 import React, { SyntheticEvent } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "../../store/store";
 import styles from './ResetPasswordPage.module.css';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../utils/constatns';
 import { useForm } from '../../hooks/useForm';
-import { resetPassword } from '../../services/actions/auth';
+import { resetPassword } from '../../store/actions/auth';
 
 const ResetPasswordPage = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	
-	// @ts-ignore
 	const { resetPasswordSuccess, resetPasswordRequest } = useSelector(store => store.auth);
 	
 	const { data, handleData } = useForm({
@@ -22,7 +21,6 @@ const ResetPasswordPage = () => {
 	const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		
-		// @ts-ignore
 		dispatch(resetPassword(data));
 	};
 	

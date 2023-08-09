@@ -2,11 +2,11 @@ import classNames from 'classnames';
 
 import React, { FC, memo, useCallback, useEffect, useRef, useState } from "react";
 
-import { useDispatch, useSelector } from 'react-redux';
 
-import { getIngredients } from '../../services/actions/ingredients';
+import { getIngredients } from '../../store/actions/ingredients';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from "../../store/store";
 
 import BurgerIngredientsSection from '../BurgerIngredientsSection/BurgerIngredientsSection';
 
@@ -17,7 +17,6 @@ import styles from './BurgerIngredients.module.css';
 const BurgerIngredients: FC = memo(() => {
 	const dispatch = useDispatch();
 	
-	// @ts-ignore
 	const { ingredients } = useSelector(store => store.ingredients);
 	
 	const [activeTab, setActiveTab] = useState(burgerTypes[0].type);
@@ -66,11 +65,6 @@ const BurgerIngredients: FC = memo(() => {
 				break;
 			}
 		}
-	}, []);
-	
-	useEffect(() => {
-		// @ts-ignore
-		dispatch(getIngredients());
 	}, []);
 	
 	return (

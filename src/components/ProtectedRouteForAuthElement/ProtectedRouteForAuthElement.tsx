@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../store/store";
 import Loader from '../Loader/Loader';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from '../../utils/constatns';
 
 type TProtectedRouteForAuthElementProps = {
@@ -9,8 +9,19 @@ type TProtectedRouteForAuthElementProps = {
 }
 
 const ProtectedRouteForAuthElement: FC<TProtectedRouteForAuthElementProps> = ({ element }) => {
-	// @ts-ignore
-	const { user, getUserRequest } = useSelector(store => store.auth);
+	const { user, getUserRequest, getUserLoaded } = useSelector(store => store.auth);
+	const location = useLocation();
+	
+	if (!localStorage.getItem('refreshToken')) {
+		return <>{element}</>
+	}
+	
+	if (location.state?.from) {
+		return <Navigate
+			to={location.state?.from}
+			replace
+		/>
+	}
 	
 	return (
 		<>

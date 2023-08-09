@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import React, { FC, memo, useEffect } from "react";
 import { createPortal } from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';

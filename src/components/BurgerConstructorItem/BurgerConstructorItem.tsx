@@ -1,9 +1,10 @@
 import React, { FC, useRef } from "react";
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { Identifier, XYCoord } from "dnd-core";
-
-import { SORT_CONSTRUCTOR_INGREDIENT } from "../../services/actions/burgerConstructor";
+import {
+    sortConstructorIngredientAction
+} from "../../store/actions/burgerConstructor";
+import { useDispatch } from "../../store/store";
 
 import styles from "./BurgerConstructorItem.module.css";
 
@@ -51,13 +52,10 @@ const BurgerConstructorItem: FC<TBurgerConstructorItemProps> = ({ children, inde
             
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
             
-            dispatch({
-                type: SORT_CONSTRUCTOR_INGREDIENT,
-                payload: {
-                    dragIndex,
-                    hoverIndex,
-                },
-            });
+            dispatch(sortConstructorIngredientAction({
+                dragIndex,
+                hoverIndex,
+            }));
             
             item.index = hoverIndex;
         },

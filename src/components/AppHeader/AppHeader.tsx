@@ -29,13 +29,17 @@ const AppHeader: FC = memo(() => {
 								</NavLink>
 							</li>
 							<li className="pt-4 pb-4 pr-5 pl-5">
-								<Link
-									to={ROUTES.main}
+								<NavLink
+									to={ROUTES.feed}
 									className={styles.item}
 								>
-									<ListIcon type="secondary"/>
-									<span className="text text_type_main-default color_secondary ml-2">Лента заказов</span>
-								</Link>
+									{({ isActive }) => (
+										<>
+											<ListIcon type="secondary"/>
+											<span className={classNames("text text_type_main-default ml-2", !isActive && 'color_secondary')}>Лента заказов</span>
+										</>
+									)}
+								</NavLink>
 							</li>
 						</ul>
 					</nav>

@@ -1,16 +1,15 @@
 import React from 'react';
+import { useDispatch, useSelector } from "../../store/store";
 import styles from './RegisterPage.module.css';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Navigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/constatns';
-import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../services/actions/auth';
+import { register } from '../../store/actions/auth';
 import { useForm } from '../../hooks/useForm';
 
 const RegisterPage = () => {
 	const dispatch = useDispatch();
 	
-	// @ts-ignore
 	const { registerRequest, user } = useSelector(store => store.auth);
 	
 	const { data, handleData } = useForm({
@@ -22,7 +21,6 @@ const RegisterPage = () => {
 	const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		
-		// @ts-ignore
 		dispatch(register(data));
 	};
 	

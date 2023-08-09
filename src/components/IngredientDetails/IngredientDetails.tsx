@@ -1,13 +1,12 @@
 import classNames from "classnames";
 
 import { FC, memo } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../store/store";
 
 import styles from "./IngredientDetails.module.css";
 
 const IngredientDetails: FC = memo(() => {
-    // @ts-ignore
-    const { currentIngredient: ingredient } = useSelector(store => store.currentIngredient);
+    const { currentIngredient: ingredient } = useSelector(store => store.ingredient);
     
     return (
         <>
