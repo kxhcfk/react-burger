@@ -1,4 +1,4 @@
-import { TWsOrder } from "../../types/TOrder";
+import { TWsOrder, TWsOrderMessage } from "../../types/TOrder";
 import {
     WS_CONNECTION__USER_ORDERS_CLOSED,
     WS_CONNECTION__USER_ORDERS_ERROR,
@@ -15,22 +15,18 @@ export interface IGetUserOrdersConnect {
 
 export interface ICloseUserOrdersConnect {
     type: typeof WS_CONNECTION_USER_ORDERS_STOP,
-    
 }
 
 export interface IGetUserOrdersSuccess {
     type: typeof WS_CONNECTION__USER_ORDERS_SUCCESS;
-    payload: Event;
 }
 
 export interface IGetUserOrdersError {
     type: typeof WS_CONNECTION__USER_ORDERS_ERROR;
-    payload: Event;
 }
 
 export interface IGetUserOrdersDisconnect {
     type: typeof WS_CONNECTION__USER_ORDERS_CLOSED;
-    payload: Event;
 }
 
 export interface IGetUserOrders {
@@ -57,25 +53,16 @@ export const getUserOrdersConnect = (
     payload: url,
 });
 
-export const getUserOrdersSuccess = (
-    event: Event,
-): IGetUserOrdersSuccess => ({
+export const getUserOrdersSuccess = (): IGetUserOrdersSuccess => ({
     type: WS_CONNECTION__USER_ORDERS_SUCCESS,
-    payload: event,
 });
 
-export const getUserOrdersError = (
-    event: Event,
-): IGetUserOrdersError => ({
+export const getUserOrdersError = (): IGetUserOrdersError => ({
     type: WS_CONNECTION__USER_ORDERS_ERROR,
-    payload: event,
 });
 
-export const getUserOrdersDisconnect = (
-    event: Event,
-): IGetUserOrdersDisconnect => ({
+export const getUserOrdersDisconnect = (): IGetUserOrdersDisconnect => ({
     type: WS_CONNECTION__USER_ORDERS_CLOSED,
-    payload: event,
 });
 
 export const closeUserOrders = (): ICloseUserOrdersConnect => ({
@@ -83,9 +70,8 @@ export const closeUserOrders = (): ICloseUserOrdersConnect => ({
 });
 
 export const getUserOrders = (
-    event: MessageEvent,
+    data: TWsOrderMessage,
 ): IGetUserOrders => {
-    const data = JSON.parse(event.data);
     return {
         type: WS_GET_USER_ORDERS,
         payload: {

@@ -1,4 +1,4 @@
-import { TWsOrder } from "../../types/TOrder";
+import { TWsOrder, TWsOrderMessage } from "../../types/TOrder";
 import {
     WS_CONNECTION__ALL_ORDERS_CLOSED,
     WS_CONNECTION__ALL_ORDERS_ERROR,
@@ -19,17 +19,14 @@ export interface ICloseAllOrdersConnect {
 
 export interface IGetAllOrdersSuccess {
     type: typeof WS_CONNECTION__ALL_ORDERS_SUCCESS;
-    payload: Event;
 }
 
 export interface IGetAllOrdersError {
     type: typeof WS_CONNECTION__ALL_ORDERS_ERROR;
-    payload: Event;
 }
 
 export interface IGetAllOrdersDisconnect {
     type: typeof WS_CONNECTION__ALL_ORDERS_CLOSED;
-    payload: Event;
 }
 
 export interface IGetAllOrders {
@@ -56,25 +53,16 @@ export const getAllOrdersConnect = (
     payload: url,
 });
 
-export const getAllOrdersSuccess = (
-    event: Event,
-): IGetAllOrdersSuccess => ({
+export const getAllOrdersSuccess = (): IGetAllOrdersSuccess => ({
     type: WS_CONNECTION__ALL_ORDERS_SUCCESS,
-    payload: event,
 });
 
-export const getAllOrdersError = (
-    event: Event,
-): IGetAllOrdersError => ({
+export const getAllOrdersError = (): IGetAllOrdersError => ({
     type: WS_CONNECTION__ALL_ORDERS_ERROR,
-    payload: event,
 });
 
-export const getAllOrdersDisconnect = (
-    event: Event,
-): IGetAllOrdersDisconnect => ({
+export const getAllOrdersDisconnect = (): IGetAllOrdersDisconnect => ({
     type: WS_CONNECTION__ALL_ORDERS_CLOSED,
-    payload: event,
 });
 
 export const closeAllOrders = (): ICloseAllOrdersConnect => ({
@@ -82,9 +70,8 @@ export const closeAllOrders = (): ICloseAllOrdersConnect => ({
 });
 
 export const getAllOrders = (
-    event: MessageEvent,
+    data: TWsOrderMessage,
 ): IGetAllOrders => {
-    const data = JSON.parse(event.data);
     return {
         type: WS_GET_ALL_ORDERS,
         payload: {

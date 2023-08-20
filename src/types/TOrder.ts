@@ -2,6 +2,8 @@ export type TOrder = {
     number: number;
 }
 
+export type TWsOrderMessage = { orders: TWsOrder[], total: number, totalToday: number }
+
 export type TWsOrder = {
     ingredients: string[];
     _id: string;

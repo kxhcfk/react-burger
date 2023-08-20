@@ -12,7 +12,7 @@ type TCurrentOrderState = {
     currentOrderFailed: boolean;
 }
 
-const initialState: TCurrentOrderState = {
+export const initialState: TCurrentOrderState = {
     currentOrder: null,
     currentOrderRequest: false,
     currentOrderFailed: false,

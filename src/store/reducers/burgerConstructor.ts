@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientWithUuid } from "../../types/TIngredient";
 import { TBurgerConstructorActions } from "../actions/burgerConstructor";
 import {
@@ -13,7 +12,7 @@ type TBurgerConstructorState = {
 	totalPrice: number;
 }
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
 	bun: null,
 	constructorIngredients: [],
 	totalPrice: 0,
@@ -32,10 +31,7 @@ const burgerConstructorReducer = (state: TBurgerConstructorState = initialState,
 				...state,
 				constructorIngredients: [
 					...state.constructorIngredients,
-					{
-						...action.ingredient,
-						uuid: uuidv4(),
-					},
+					action.ingredient,
 				],
 			};
 		}

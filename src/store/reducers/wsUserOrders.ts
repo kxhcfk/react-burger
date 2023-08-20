@@ -1,12 +1,10 @@
 import { TWsOrder } from "../../types/TOrder";
-import { TGetAllOrdersActions } from "../actions/wsAllOrders";
 import { TGetUserOrdersActions } from "../actions/wsUserOrders";
-import {
-} from "../constants/wsAllOrders";
 import {
     WS_CONNECTION__USER_ORDERS_CLOSED,
     WS_CONNECTION__USER_ORDERS_ERROR,
-    WS_CONNECTION__USER_ORDERS_SUCCESS, WS_GET_USER_ORDERS,
+    WS_CONNECTION__USER_ORDERS_SUCCESS,
+    WS_GET_USER_ORDERS,
 } from "../constants/wsUserOrders";
 
 interface IGetUserOrdersState {
@@ -16,7 +14,7 @@ interface IGetUserOrdersState {
     totalToday: number,
 }
 
-const initialState: IGetUserOrdersState = {
+export const initialState: IGetUserOrdersState = {
     wsConnected: false,
     orders: [],
     total: 0,

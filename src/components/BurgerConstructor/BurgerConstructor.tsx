@@ -1,5 +1,5 @@
 import classNames from "classnames";
-
+import { v4 as uuidv4 } from 'uuid';
 import React, { FC, memo, useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -75,7 +75,10 @@ const BurgerConstructor: FC = memo(() => {
             if (ingredient.type === TYPE_BUN) {
                 dispatch(addConstructorBunAction(ingredient));
             } else {
-                dispatch(addConstructorIngredientAction(ingredient));
+                dispatch(addConstructorIngredientAction({
+                    ...ingredient,
+                    uuid: uuidv4(),
+                }));
             }
             
             dispatch(calcTotalPriceAction());
