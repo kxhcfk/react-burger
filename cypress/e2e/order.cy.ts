@@ -1,6 +1,6 @@
 describe("Оформление заказа", () => {
     before(() => {
-        cy.visit('http://localhost:3000/login');
+        cy.visit('http://localhost:3000/react-burger/login');
         cy.viewport(1920, 930);
         
         cy.get('input[name=email]').type(`reveersed@mail.ru`);

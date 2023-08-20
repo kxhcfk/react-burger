@@ -1,6 +1,6 @@
 describe("Детали игредиента", () => {
     before(() => {
-        cy.visit('http://localhost:3000/');
+        cy.visit('http://localhost:3000/react-burger');
         cy.viewport(1920, 930);
     })
     
