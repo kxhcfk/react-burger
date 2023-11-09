@@ -1,4 +1,4 @@
-import { TIngredient } from "../../types/TIngredient";
+import { TIngredient, TIngredientWithUuid } from "../../types/TIngredient";
 import {
     ADD_CONSTRUCTOR_BUN,
     ADD_CONSTRUCTOR_INGREDIENT,
@@ -15,7 +15,7 @@ export interface IAddConstructorBunAction {
 
 export interface IAddConstructorIngredientAction {
     readonly type: typeof ADD_CONSTRUCTOR_INGREDIENT;
-    readonly ingredient: TIngredient;
+    readonly ingredient: TIngredientWithUuid;
 }
 
 export interface IDeleteConstructorIngredientAction {
@@ -42,7 +42,7 @@ export const addConstructorBunAction = (bun: TIngredient): IAddConstructorBunAct
     bun,
 });
 
-export const addConstructorIngredientAction = (ingredient: TIngredient): IAddConstructorIngredientAction => ({
+export const addConstructorIngredientAction = (ingredient: TIngredientWithUuid): IAddConstructorIngredientAction => ({
     type: ADD_CONSTRUCTOR_INGREDIENT,
     ingredient,
 });

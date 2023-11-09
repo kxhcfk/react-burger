@@ -1,13 +1,14 @@
 import { Middleware, MiddlewareAPI } from "redux";
 import { API } from "../../services/api";
 import { AppDispatch, RootState, TApplicationActions } from "../../types";
+import { TWsOrderMessage } from "../../types/TOrder";
 
 interface IWSActions {
     wsStart: string;
     wsStop: string;
     
     onOpen: (event: Event) => TApplicationActions;
-    onMessage: (event: MessageEvent) => TApplicationActions;
+    onMessage: (data: TWsOrderMessage) => TApplicationActions;
     onError: (event: Event) => TApplicationActions;
     onClose: (event: Event) => TApplicationActions;
 }
@@ -45,7 +46,7 @@ export const wsMiddleware = (WSActions: IWSActions): Middleware => {
                         
                         new API().refreshToken()
                             .then(() => {
-                                const newToken = localStorage.getItem('accessToken');
+                                const newToken = localStorage.getItem("accessToken");
                                 
                                 const socketUrl = wsUrl?.split("?")[0];
                                 
@@ -57,7 +58,7 @@ export const wsMiddleware = (WSActions: IWSActions): Middleware => {
                                 } as TApplicationActions);
                             });
                     } else {
-                        dispatch(WSActions.onMessage(event));
+                        dispatch(WSActions.onMessage(JSON.parse(event.data)));
                     }
                 };
                 socket.onclose = event => {
